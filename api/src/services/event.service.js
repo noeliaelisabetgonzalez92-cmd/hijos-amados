@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const Event = require('../models/Event');
 const { parseEventsFromExcel } = require('../utils/eventExcel.util');
 
@@ -88,6 +90,32 @@ const importEventsFromExcel = async (fileBuffer) => {
   );
 };
 
+// Carga directa del Excel sin interactuar con MongoDB
+const loadEventsFromLocalExcel = async () => {
+  let filePath = path.join(__dirname, '../../CONGRESO VPM.xlsx');
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(__dirname, '../CONGRESO VPM.xlsx');
+  }
+  if (!fs.existsSync(filePath)) {
+    filePath = 'C:\\Users\\Usuario\\Desktop\\CONGRESO VPM\\CONGRESO VPM.xlsx';
+  }
+
+  if (!fs.existsSync(filePath)) {
+    throw requestError(Error, `No se encontró el archivo Excel en la ruta: ${filePath}`);
+  }
+
+  const fileBuffer = fs.readFileSync(filePath);
+  
+  // Procesa el Excel directamente sin invocar Mongoose (insertMany)
+  const events = await parseEventsFromExcel(fileBuffer);
+
+  // Mapeamos un identificador virtual _id para React
+  return events.map((event, index) => ({
+    _id: `excel-${event.rowNumber || index + 1}`,
+    ...event,
+  }));
+};
+
 module.exports = {
   createEvent,
   getEvents,
@@ -97,4 +125,5 @@ module.exports = {
   updatePayment,
   deleteEvent,
   importEventsFromExcel,
+  loadEventsFromLocalExcel,
 };

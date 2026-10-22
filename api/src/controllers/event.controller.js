@@ -16,7 +16,7 @@ const createEvent = async (req, res, next) => {
 
 const getEvents = async (req, res, next) => {
   try {
-    const events = await eventService.getEvents();
+    const events = await eventService.loadEventsFromLocalExcel();
     return res.status(200).json({ data: events });
   } catch (error) {
     return next(error);

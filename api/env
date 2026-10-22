@@ -1,0 +1,3 @@
+MONGODB_URI="mongodb+srv://davidspagliano_db_user:v81ougyn6ZvqCcJz@clusterhijosamados.j7pzz5j.mongodb.net/dbHijosAmados"
+JWT_SECRET="884e6b48116367087d380584c8f4daceff109687e43757df13d2436d658884f2b674ffdfc32a4fcff6f402b01c75dcd03533ec6a6fde2a096b902077d8d04ff2"
+FRONTEND_URL="http://localhost:5173/"

@@ -4,18 +4,6 @@ const BASE = '/events';
 
 export const PAYMENT_METHODS = ['efectivo', 'transferencia'];
 
-/**
- * @typedef {Object} Event
- * @property {string} _id
- * @property {string} nameAndLastName
- * @property {boolean} isAssisted
- * @property {'efectivo'|'transferencia'} methodPayment
- * @property {number} totalPayment
- * @property {number} paidAmount
- * @property {string} creado
- * @property {string} actualizado
- */
-
 /** GET /events */
 export const getEvents = async (config) => {
   const { data } = await api.get(BASE, config);
@@ -34,13 +22,13 @@ export const createEvent = async (event) => {
   return data.data;
 };
 
-/** PUT /events/:id (reemplazo) */
+/** PUT /events/:id */
 export const replaceEvent = async (id, event) => {
   const { data } = await api.put(`${BASE}/${id}`, event);
   return data.data;
 };
 
-/** PATCH /events/:id (actualización parcial) */
+/** PATCH /events/:id */
 export const updateEvent = async (id, changes) => {
   const { data } = await api.patch(`${BASE}/${id}`, changes);
   return data.data;
@@ -67,11 +55,7 @@ export const deleteEvent = async (id) => {
   return id;
 };
 
-/**
- * POST /events/import/excel
- * @param {File} file archivo .xlsx (máx. 5MB)
- * @returns {Promise<{ message: string, count: number, data: Event[] }>}
- */
+/** POST /events/import/excel */
 export const importEventsFromExcel = async (file, onUploadProgress) => {
   const formData = new FormData();
   formData.append('file', file);

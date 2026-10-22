@@ -3,6 +3,7 @@ const multer = require('multer');
 const eventController = require('../controllers/event.controller');
 
 const router = express.Router();
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024, files: 1 },
@@ -18,7 +19,10 @@ const requireBody = (req, res, next) => {
   return next();
 };
 
+// Ruta GET que consulta el frontend (lee el Excel local del escritorio)
 router.get('/', eventController.getEvents);
+
+// Rutas de creación, actualización e importación
 router.post('/', requireBody, eventController.createEvent);
 router.post('/import/excel', upload.single('file'), eventController.importEventsFromExcel);
 router.get('/:id', eventController.getEventById);
